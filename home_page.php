@@ -633,11 +633,12 @@
             <div class="team-grid">
                 <div class="team-member">
                     <div class="member-image">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Fahim Mahtab">
+                    <img src="images/fahim.jpg" alt="Fahim Mahtab" width="128" height="128">
                     </div>
                     <div class="member-info">
                         <h3>Fahim Mahtab</h3>
-                        <p>Project Lead</p>
+                        <p>Project Lead and Developer</p>
+                        
                         <div class="social-links">
                             <a href="#"><i class="fab fa-linkedin"></i></a>
                             <a href="#"><i class="fab fa-github"></i></a>
@@ -647,7 +648,7 @@
                 </div>
                 <div class="team-member">
                     <div class="member-image">
-                        <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Abdullah Al Islam">
+                    <img src="images/abdulllah.jpg" alt="Abdullah Al Islam " width="128" height="128">
                     </div>
                     <div class="member-info">
                         <h3>Abdullah Al Islam</h3>
@@ -661,7 +662,7 @@
                 </div>
                 <div class="team-member">
                     <div class="member-image">
-                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Tawhid Elahi">
+                    <img src="images/elahi.jpg" alt="Tawhid Elahi " width="128" height="128">
                     </div>
                     <div class="member-info">
                         <h3>Tawhid Elahi</h3>
@@ -675,7 +676,7 @@
                 </div>
                 <div class="team-member">
                     <div class="member-image">
-                        <img src="https://randomuser.me/api/portraits/men/19.jpg" alt="Md. Jahid Hasan Raihan">
+                    <img src="images/jahid.jpg" alt="Md. Jahid Hasan Raihan" width="128" height="128">
                     </div>
                     <div class="member-info">
                         <h3>Md. Jahid Hasan Raihan</h3>
@@ -689,11 +690,11 @@
                 </div>
                 <div class="team-member">
                     <div class="member-image">
-                        <img src="https://randomuser.me/api/portraits/men/27.jpg" alt="Minhaj Hossain">
+                    <img src="images/sadaf.jpg" alt="Minhaj Hossain" width="128" height="128">
                     </div>
                     <div class="member-info">
                         <h3>Minhaj Hossain</h3>
-                        <p>Backend Developer</p>
+                        <p>IoT</p>
                         <div class="social-links">
                             <a href="#"><i class="fab fa-linkedin"></i></a>
                             <a href="#"><i class="fab fa-github"></i></a>
@@ -703,7 +704,7 @@
                 </div>
                 <div class="team-member">
                     <div class="member-image">
-                        <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="MST. Farjana Tabassum Nishat">
+                        <!-- <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="MST. Farjana Tabassum Nishat"> -->
                     </div>
                     <div class="member-info">
                         <h3>MST. Farjana Tabassum Nishat</h3>

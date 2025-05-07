@@ -1,7 +1,7 @@
 <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
     <div class="position-sticky pt-3">
         <div class="sidebar-header text-center">
-            <img src="logo.jpeg" alt="MeaTrack Logo" class="img-fluid mb-3" style="max-width: 150px;">
+            <img src="images/logo.jpeg" alt="MeaTrack Logo" class="img-fluid mb-3" style="max-width: 150px;">
             <h4 class="text-white">MeTech</h4>
         </div>
         <ul class="nav flex-column">
