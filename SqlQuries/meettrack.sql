@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 07, 2025 at 06:57 AM
+-- Generation Time: May 07, 2025 at 09:00 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,15 +35,6 @@ CREATE TABLE `condition_monitoring` (
   `recorded_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `condition_monitoring`
---
-
-INSERT INTO `condition_monitoring` (`id`, `storage_location_id`, `temperature`, `humidity`, `recorded_at`) VALUES
-(2, 2, 5.00, 5.00, '2025-05-06 19:54:28'),
-(3, 2, 50.00, 80.00, '2025-05-06 19:54:55'),
-(4, 1, 5.00, 50.00, '2025-05-06 19:55:19');
-
 -- --------------------------------------------------------
 
 --
@@ -67,10 +58,12 @@ INSERT INTO `dismissed_alerts` (`id`, `user_id`, `alert_identifier`, `dismissed_
 (3, 1, 'inv_3', '2025-05-06 21:41:00'),
 (4, 1, 'inv_1', '2025-05-06 21:41:01'),
 (5, 1, 'inv_2', '2025-05-06 21:41:01'),
-(6, 1, 'cond_4', '2025-05-06 21:41:02'),
 (7, 1, 'cond_3', '2025-05-06 21:41:03'),
 (8, 1, 'cond_2', '2025-05-06 21:41:04'),
-(9, 1, 'inv_8', '2025-05-06 21:41:06');
+(9, 1, 'inv_8', '2025-05-06 21:41:06'),
+(10, 1, 'inv_9', '2025-05-07 06:14:10'),
+(11, 1, 'cond_9', '2025-05-07 06:30:12'),
+(12, 1, 'cond_4', '2025-05-07 06:30:14');
 
 -- --------------------------------------------------------
 
@@ -95,9 +88,9 @@ CREATE TABLE `distribution` (
 --
 
 INSERT INTO `distribution` (`id`, `delivery_id`, `destination`, `scheduled_datetime`, `vehicle`, `driver`, `status`, `completed_at`, `created_at`) VALUES
-(1, 'DL-2025-04-23-784', 'Dhaka', '2025-04-23 18:39:00', 'Truck', 'Sadaf', 'delivered', '2025-04-23 22:42:56', '2025-04-23 16:40:07'),
-(2, 'DL-2025-04-23-436', 'Dhaka', '2025-04-23 18:42:00', 'Truck', 'Sadaf', 'cancelled', NULL, '2025-04-23 16:42:48'),
-(3, 'DL-2025-04-26-091', 'Dhaka', '2025-04-26 17:07:00', 'Truck', 'Sadaf', 'delivered', '2025-04-26 21:08:04', '2025-04-26 15:07:56');
+(7, 'DL-2025-05-07-473', 'Dhaka', '2025-05-07 08:51:00', 'Truck', 'Sadaf', 'delivered', '2025-05-07 12:51:49', '2025-05-07 06:51:26'),
+(8, 'DL-2025-05-07-110', 'Dhaka', '2025-05-07 08:51:00', 'Truck', 'Sadaf', 'cancelled', NULL, '2025-05-07 06:52:02'),
+(9, 'DL-2025-05-07-698', 'Dhaka', '2025-05-07 08:53:00', 'Truck', 'Sadaf', 'preparing', NULL, '2025-05-07 06:53:16');
 
 -- --------------------------------------------------------
 
@@ -117,9 +110,9 @@ CREATE TABLE `distribution_items` (
 --
 
 INSERT INTO `distribution_items` (`id`, `distribution_id`, `inventory_id`, `quantity`) VALUES
-(1, 1, 1, 2.00),
-(2, 2, 2, 25.00),
-(3, 3, 6, 20.00);
+(9, 7, 19, 5.00),
+(10, 8, 19, 5.00),
+(11, 9, 19, 5.00);
 
 -- --------------------------------------------------------
 
@@ -146,12 +139,7 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`id`, `batch_number`, `meat_type_id`, `cut_type`, `quantity`, `processing_date`, `expiry_date`, `storage_location_id`, `quality_notes`, `status`, `created_at`) VALUES
-(1, 'MT-2025-04-23-022', 1, 'Loin', 3.00, '2025-04-23', '2025-04-30', 2, 'A Grade', 'spoiled', '2025-04-23 16:39:16'),
-(2, 'MT-2025-04-23-063', 1, 'Loin', 25.00, '2025-04-23', '2025-04-30', 3, 'A+', 'spoiled', '2025-04-23 16:41:47'),
-(3, 'MT-2025-04-23-840', 2, 'Breast', 25.00, '2025-04-23', '2025-04-29', 4, 'b+', 'spoiled', '2025-04-23 16:48:39'),
-(5, 'MT-2025-04-23-400', 4, '', 10.00, '2025-04-23', '2025-04-24', 1, 'b+', 'spoiled', '2025-04-23 16:50:49'),
-(6, 'MT-2025-04-25-176', 2, '', 30.00, '2025-04-25', '2025-04-25', 1, '', 'spoiled', '2025-04-25 11:10:43'),
-(8, 'MT-2025-05-06-845', 1, '', 100.00, '2025-05-06', '2025-05-07', 3, 'A+', 'good', '2025-05-06 20:37:29');
+(19, 'MT-2025-05-07-055', 1, 'Loin', 5.00, '2025-05-07', '2025-05-05', 2, '', 'good', '2025-05-07 06:51:14');
 
 -- --------------------------------------------------------
 
@@ -169,14 +157,6 @@ CREATE TABLE `loss_records` (
   `action_taken` text DEFAULT NULL,
   `recorded_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `loss_records`
---
-
-INSERT INTO `loss_records` (`id`, `inventory_id`, `meat_type_id`, `stage`, `quantity`, `reason`, `action_taken`, `recorded_at`) VALUES
-(1, 6, 1, 'processing', 50.00, 'spoilage ', 'yes', '2025-05-06 19:36:11'),
-(2, 3, 2, 'storage', 15.00, 'Expired', 'yes', '2025-05-06 19:45:44');
 
 -- --------------------------------------------------------
 
@@ -219,13 +199,6 @@ CREATE TABLE `spoilage` (
   `recorded_by` int(11) NOT NULL,
   `recorded_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `spoilage`
---
-
-INSERT INTO `spoilage` (`id`, `inventory_id`, `batch_number`, `meat_type_id`, `quantity`, `processing_date`, `storage_location_id`, `reason`, `disposal_method`, `recorded_by`, `recorded_at`) VALUES
-(1, 5, 'MT-2025-04-23-400', 1, 10.00, '2025-04-23', 1, 'expired', 'incineration', 1, '2025-05-06 21:01:56');
 
 -- --------------------------------------------------------
 
@@ -296,7 +269,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `status`, `last_
 (1, 'Admin User', 'admin@meettrack.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 'active', NULL, '2025-04-23 16:31:47'),
 (2, 'asdasdagds', 'fahimmahtab40@gmail.com', '$2y$10$p3SdGga/SocgHIvTMEI6V.4h1kAjxq/It4BvIjX7HPakE7igUkHRO', 'manager', 'active', NULL, '2025-04-23 16:43:55'),
 (3, 'Abdullah', 'abdullah55@gmail.com', '$2y$10$4froNn.qYksKwvdMk3S6xOuY6Cll749UfHbnppNgdYhv3KqCQp0E2', 'manager', 'active', NULL, '2025-04-23 17:00:13'),
-(4, 'sadaf', 'sadaf55@gmail.com', '$2y$10$4JRJywg/EME41hP6K2BH9Orjb7u2B4ll6sPbDn/nIFDlrTLbSs6sq', 'viewer', 'active', NULL, '2025-04-23 17:02:16');
+(4, 'sadaf', 'sadaf55@gmail.com', '$2y$10$4JRJywg/EME41hP6K2BH9Orjb7u2B4ll6sPbDn/nIFDlrTLbSs6sq', 'viewer', 'active', NULL, '2025-04-23 17:02:16'),
+(5, 'Abdullah', 'abdullah58@gmail.com', '$2y$10$gBxwvobBBNk9u3ISYN/KL.I0TyH8oDMn.1K3gj.Qu4mPcdpjW6gbu', 'manager', 'active', NULL, '2025-05-07 06:19:01');
 
 --
 -- Indexes for dumped tables
@@ -329,7 +303,7 @@ ALTER TABLE `distribution`
 ALTER TABLE `distribution_items`
   ADD PRIMARY KEY (`id`),
   ADD KEY `distribution_id` (`distribution_id`),
-  ADD KEY `inventory_id` (`inventory_id`);
+  ADD KEY `distribution_items_ibfk_2` (`inventory_id`);
 
 --
 -- Indexes for table `inventory`
@@ -345,8 +319,8 @@ ALTER TABLE `inventory`
 --
 ALTER TABLE `loss_records`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `inventory_id` (`inventory_id`),
-  ADD KEY `meat_type_id` (`meat_type_id`);
+  ADD KEY `meat_type_id` (`meat_type_id`),
+  ADD KEY `loss_records_ibfk_1` (`inventory_id`);
 
 --
 -- Indexes for table `meat_types`
@@ -393,37 +367,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `condition_monitoring`
 --
 ALTER TABLE `condition_monitoring`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `dismissed_alerts`
 --
 ALTER TABLE `dismissed_alerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `distribution`
 --
 ALTER TABLE `distribution`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `distribution_items`
 --
 ALTER TABLE `distribution_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `loss_records`
 --
 ALTER TABLE `loss_records`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `meat_types`
@@ -435,7 +409,7 @@ ALTER TABLE `meat_types`
 -- AUTO_INCREMENT for table `spoilage`
 --
 ALTER TABLE `spoilage`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `storage_locations`
@@ -453,7 +427,7 @@ ALTER TABLE `system_settings`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -476,7 +450,7 @@ ALTER TABLE `dismissed_alerts`
 --
 ALTER TABLE `distribution_items`
   ADD CONSTRAINT `distribution_items_ibfk_1` FOREIGN KEY (`distribution_id`) REFERENCES `distribution` (`id`),
-  ADD CONSTRAINT `distribution_items_ibfk_2` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`);
+  ADD CONSTRAINT `distribution_items_ibfk_2` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `inventory`
@@ -489,14 +463,14 @@ ALTER TABLE `inventory`
 -- Constraints for table `loss_records`
 --
 ALTER TABLE `loss_records`
-  ADD CONSTRAINT `loss_records_ibfk_1` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`),
+  ADD CONSTRAINT `loss_records_ibfk_1` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `loss_records_ibfk_2` FOREIGN KEY (`meat_type_id`) REFERENCES `meat_types` (`id`);
 
 --
 -- Constraints for table `spoilage`
 --
 ALTER TABLE `spoilage`
-  ADD CONSTRAINT `spoilage_ibfk_1` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`),
+  ADD CONSTRAINT `spoilage_ibfk_1` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `spoilage_ibfk_2` FOREIGN KEY (`meat_type_id`) REFERENCES `meat_types` (`id`),
   ADD CONSTRAINT `spoilage_ibfk_3` FOREIGN KEY (`storage_location_id`) REFERENCES `storage_locations` (`id`),
   ADD CONSTRAINT `spoilage_ibfk_4` FOREIGN KEY (`recorded_by`) REFERENCES `users` (`id`);
