@@ -66,6 +66,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         header('Location: distribution.php');
         exit;
+    } elseif ($action === 'delete') {
+        // Delete distribution
+        $pdo->beginTransaction();
+        try {
+            $distributionId = $_POST['id'];
+            
+            // First return items to inventory
+            $items = $pdo->prepare("
+                SELECT inventory_id, quantity 
+                FROM distribution_items 
+                WHERE distribution_id = ?
+            ");
+            $items->execute([$distributionId]);
+            $items = $items->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach ($items as $item) {
+                $pdo->prepare("
+                    UPDATE inventory SET quantity = quantity + ? 
+                    WHERE id = ?
+                ")->execute([$item['quantity'], $item['inventory_id']]);
+            }
+            
+            // Then delete the distribution items
+            $stmt = $pdo->prepare("DELETE FROM distribution_items WHERE distribution_id = ?");
+            $stmt->execute([$distributionId]);
+            
+            // Finally delete the distribution record
+            $stmt = $pdo->prepare("DELETE FROM distribution WHERE id = ?");
+            $stmt->execute([$distributionId]);
+            
+            $pdo->commit();
+            header('Location: distribution.php');
+            exit;
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            $error = "Failed to delete distribution: " . $e->getMessage();
+        }
     }
 }
 
@@ -179,6 +216,11 @@ if ($action === 'view' || $action === 'update_status') {
                                                             <a href="distribution.php?action=view&id=<?= $dist['id'] ?>" class="btn btn-sm btn-info">
                                                                 <i class="fas fa-eye"></i>
                                                             </a>
+                                                            <?php if ($dist['status'] !== 'delivered' && $dist['status'] !== 'cancelled'): ?>
+                                                                <button class="btn btn-sm btn-danger" onclick="confirmDelete(<?= $dist['id'] ?>)">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            <?php endif; ?>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -367,13 +409,20 @@ if ($action === 'view' || $action === 'update_status') {
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h5>Distribution Details</h5>
-                                    <span class="badge bg-<?= 
-                                        $distribution['status'] === 'preparing' ? 'warning' : 
-                                        ($distribution['status'] === 'in_transit' ? 'info' : 
-                                        ($distribution['status'] === 'delivered' ? 'success' : 'secondary'))
-                                    ?>">
-                                        <?= ucfirst(str_replace('_', ' ', $distribution['status'])) ?>
-                                    </span>
+                                    <div>
+                                        <span class="badge bg-<?= 
+                                            $distribution['status'] === 'preparing' ? 'warning' : 
+                                            ($distribution['status'] === 'in_transit' ? 'info' : 
+                                            ($distribution['status'] === 'delivered' ? 'success' : 'secondary'))
+                                        ?>">
+                                            <?= ucfirst(str_replace('_', ' ', $distribution['status'])) ?>
+                                        </span>
+                                        <?php if ($distribution['status'] !== 'delivered' && $distribution['status'] !== 'cancelled'): ?>
+                                            <button type="button" class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="row mb-4">
@@ -431,6 +480,29 @@ if ($action === 'view' || $action === 'update_status') {
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Delete Confirmation Modal -->
+                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete this distribution? This action cannot be undone.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <form method="POST" style="display: inline;">
+                                        <input type="hidden" name="id" value="<?= $distribution['id'] ?>">
+                                        <input type="hidden" name="action" value="delete">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php elseif ($action === 'update_status'): ?>
                     <div class="row">
                         <div class="col-md-6 mx-auto">
@@ -480,5 +552,29 @@ if ($action === 'view' || $action === 'update_status') {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function confirmDelete(id) {
+            if (confirm('Are you sure you want to delete this distribution? This action cannot be undone.')) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'distribution.php';
+                
+                const idInput = document.createElement('input');
+                idInput.type = 'hidden';
+                idInput.name = 'id';
+                idInput.value = id;
+                
+                const actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                actionInput.value = 'delete';
+                
+                form.appendChild(idInput);
+                form.appendChild(actionInput);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
 </body>
 </html>

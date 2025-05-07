@@ -30,6 +30,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_loss'])) {
     }
 }
 
+// Handle delete action
+if (isset($_GET['delete'])) {
+    try {
+        $stmt = $pdo->prepare("DELETE FROM loss_records WHERE id = ?");
+        $stmt->execute([$_GET['delete']]);
+        
+        $_SESSION['success_message'] = "Loss record deleted successfully";
+        header("Location: loss-analysis.php");
+        exit;
+    } catch (PDOException $e) {
+        $_SESSION['error_message'] = "Error deleting loss record: " . $e->getMessage();
+    }
+}
+
 // Get loss by stage
 $lossByStage = $pdo->query("
     SELECT stage, SUM(quantity) as total
@@ -206,6 +220,7 @@ $batches = $pdo->query("SELECT id, batch_number FROM inventory ORDER BY batch_nu
                                                 <th>Quantity (kg)</th>
                                                 <th>Reason</th>
                                                 <th>Action Taken</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -218,6 +233,13 @@ $batches = $pdo->query("SELECT id, batch_number FROM inventory ORDER BY batch_nu
                                                     <td><?= number_format($record['quantity'], 2) ?></td>
                                                     <td><?= $record['reason'] ?></td>
                                                     <td><?= $record['action_taken'] ?? 'N/A' ?></td>
+                                                    <td>
+                                                        <a href="loss-analysis.php?delete=<?= $record['id'] ?>" 
+                                                           class="btn btn-sm btn-danger"
+                                                           onclick="return confirm('Are you sure you want to delete this record?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
